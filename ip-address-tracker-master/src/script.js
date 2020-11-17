@@ -1,4 +1,10 @@
-// DOM selections
+// VARIABLES
+const ipAddress = document.getElementById("ip-address");
+const locationInfo = document.getElementById("location-info");
+const timeZone = document.getElementById("timeZone");
+const ISP = document.getElementById("isp");
+let lat;
+let long;
 
 // API
 const searchButton = document.getElementById("search-button");
@@ -18,18 +24,29 @@ async function getLocation(url) {
         const res = await fetch(url);
         const data = await res.json();
         console.log(data);
+        ipAddress.innerHTML = data.ip;
+        locationInfo.innerHTML = `${data.location.city.split(" ")[0]} ${data.location.region}`;
+        timeZone.innerHTML = data.location.timezone;
+        ISP.innerHTML = data.isp;
+        lat = data.location.lat;
+        long = data.location.lng;
+        console.log(ipAddress, locationInfo, timeZone, ISP, lat, long);
+        drawMap(lat, long);
+
     } catch (err) {
         console.log(err);
     }
 }
 
 // Leaflet JS MAP
-var map = L.map('map').setView([51.505, -0.09], 13);
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-
-L.marker([51.5, -0.09]).addTo(map)
-    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-    .openPopup();
+function drawMap(lat,lng) {
+    var map = L.map('map').setView([lat, lng], 16);
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    
+    L.marker([lat, lng]).addTo(map)
+        .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+        .openPopup();
+}
