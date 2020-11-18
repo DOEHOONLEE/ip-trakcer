@@ -39,12 +39,12 @@ async function getLocation(url) {
 }
 
 // Leaflet JS MAP
+var map = L.map('map').setView([37.2664, 126.9994], 16);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
 function drawMap(lat,lng) {
-    var map = L.map('map').setView([lat, lng], 16);
-    
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
     
     L.marker([lat, lng]).addTo(map)
         .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
