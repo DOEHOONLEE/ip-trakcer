@@ -1,24 +1,29 @@
-// VARIABLES
+// ../ VARIABLES /.. //
+
+const api_key = "at_cWgvuXsOvYhL1O0Rm38t7g485Ixyr";
+const api_url = "https://geo.ipify.org/api/v1?";
+let lat;
+let long;
+    // DOM SELECTIONS
 const ipAddress = document.getElementById("ip-address");
 const locationInfo = document.getElementById("location-info");
 const timeZone = document.getElementById("timeZone");
 const ISP = document.getElementById("isp");
-let lat;
-let long;
 
-// API
+// ON CLICK EVENT
 const searchButton = document.getElementById("search-button");
 const inputIP = document.getElementById("input-ip");
 searchButton.addEventListener("click", function() {
     console.log(inputIP.value)
     const givenIP = inputIP.value;
-    const api_key = "at_cWgvuXsOvYhL1O0Rm38t7g485Ixyr";
-    const api_url = "https://geo.ipify.org/api/v1?";
     const URL = `${api_url}apiKey=${api_key}&ipAddress=${givenIP}`;
 
     getLocation(URL);
 });
 
+// ../ FUNCTIONS /..  //
+
+    // GET LOCATION
 async function getLocation(url) {
     try {
         const res = await fetch(url);
@@ -38,15 +43,16 @@ async function getLocation(url) {
     }
 }
 
-// Leaflet JS MAP
+    // LEAFLET JS MAP DARWING
 var map = L.map('map').setView([37.2664, 126.9994], 16);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
+
 function drawMap(lat,lng) {
     
     L.marker([lat, lng]).addTo(map)
-        .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+        // .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
         .openPopup();
 }
